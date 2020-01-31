@@ -1,0 +1,110 @@
+#include<stdio.h>
+#include<conio.h>
+#include<process.h>
+void main()
+{
+int fact(int);
+int fibo(int);
+int gcd(int,int);
+int acker(int,int);
+void TOH(int,char,char,char);
+int num,x,a,b;
+long int result;
+clrscr();
+while(1)
+{
+clrscr();
+printf("MENU\n");
+printf("______\n");
+printf("1.Factorial of number.\n");
+printf("2.Fibonacci series\n");
+printf("3.GCD\n");
+printf("4.Ackermann Function\n");
+printf("5.Tower of Hanoi\n");
+printf("6.Exit\n");
+printf("Choose your option\n");
+scanf("%d",&x);
+switch(x)
+{
+case 1: printf("Enter any Number:");
+	scanf("%d",&num);
+	result=fact(num);
+	printf("Fcatorial of %d is:%ld",num,result);
+	break;
+case 2: printf("Enter any Number:");
+	scanf("%d",&num);
+	result=fibo(num);
+	printf("Nth fibonacci series of %d is:%ld",num,result);
+	break;
+case 3: printf("Enter two numbers:");
+	scanf("%d%d",&a,&b);
+	result=gcd(a,b);
+	printf("GCD of the numbers %d and %d is:%ld",a,b,result);
+	break;
+case 4: printf("Enter two numbers for the Ackermann function:");
+	scanf("%d%d",&a,&b);
+	result=acker(a,b);
+	if(result<0)
+	printf("ERROR,Enter positive numbers.");
+	else
+	printf("Value of Ackermann function is %ld",result);
+	break;
+case 5: printf("Enetr number of Disc:");
+	scanf("%d",&num);
+	TOH(num,'A','B','C');
+	break;
+case 6: exit(1);
+default: printf("ERROR:Plase select correct option.");
+	exit(1);
+}
+getch();
+}
+}
+
+int fact(int num)
+{
+if(num==0)
+return 1;
+else
+return num*fact(num-1);
+}
+
+int fibo(int num)
+{
+if(num<3)
+return num-1;
+else
+return fibo(num-1)+fibo(num-2);
+}
+
+int gcd(int a,int b)
+{
+if(a==0)
+return b;
+else
+return gcd(b%a,a);
+}
+
+int acker(int a,int b)
+{
+if(a==0)
+return b+1;
+else if(a>0 && b==0)
+return acker(a-1,1);
+else if(a>0 && b>0)
+return acker(a-1,acker(a,b-1));
+else
+return -1;
+}
+
+void TOH(int n,char a,char b,char c)
+{
+if(n==1)
+printf("Move %c to %c\n",a,b);
+else
+{
+TOH(n-1,a,c,b);
+printf("Move %c to %c\n",a,b);
+TOH(n-1,c,b,a);
+}
+}
