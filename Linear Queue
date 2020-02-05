@@ -1,0 +1,122 @@
+#include<stdio.h>
+#include<conio.h>
+#include<process.h>
+#define MAX_QUEUE 10       
+#define NIL -1
+typedef struct queuetype           //a structure is created
+{
+int a[MAX_QUEUE];             //a inetegr type array is declared
+int front;               //front variable taken to point the front index in queue
+int rear;                //rear variable taken to point the rear index in queue
+}queue;                
+
+void main()
+{
+queue q1;              //object created to access the structure
+q1.front=NIL;            //initialy the front index is NIL i.e -1
+q1.rear=NIL;           //initialy the raer index is NIL i.e -1
+int item,choice,f;         
+void insertionqueue(queue*,int);  //a function is declared to for the insertion operation having return type void and will take two argumens
+int deletionqueue(queue*);     //a function is declared to for the deletion operation which will return a integer value
+int isfull(queue*);       //a function declared to check the queue is fll or not
+int isempty(queue*);     //a function is declared to check the queue is empty or not
+clrscr();
+while(1)          //while loop is used for the infinite loop
+{
+clrscr();
+printf("MENU\n_____\n");
+printf("1.Insertion in Queue\n2.Deletion from Queue\n3.Exit\n");
+printf("Select your choice");
+scanf("%d",&choice);            
+switch(choice)                //switch case statment is used
+{
+case 1:f=isfull(&q1);        //if the user select 1 then case one statements will execte and first checks the queue is full or not
+       if(f==1)              //if the queue is full then full message will print   
+       {                           
+       printf("Queue is full"); 
+       break;
+       }
+       else            //if the queue is not full then this statemnt will execute
+       {
+       printf("Enter an item to insert in queue:");   //asks for a item to insert
+       scanf("%d",&item);                   //value stored in item variable
+       insertionqueue(&q1,item);     //insert function is called which will take the queue and item as argument
+       }
+       break;
+case 2:f=isempty(&q1);     //if the user select 2 then case one statements will execte and first checks the queue is empty or not
+       if(f==1)             //if the queue is empty then empty message will print 
+       {
+       printf("Queue is empty");
+       break;
+       }
+       else             //if the queue is not empty then this statemnt will execute
+       {
+       item=deletionqueue(&q1);   //deletion function is called which will take the queue argument and the value returned by the function will be stored in the item variable
+       printf("Deleted item from queue is %d",item);    //print the item
+       }
+       break;
+case 3:exit(1);    //user selected 3 then exit from the while loop
+       break;
+default:printf("Error");
+	break;
+}
+getch();
+}
+}
+
+int isfull(queue *q)      //function defined to check the queue is full or not
+{
+if(q->front==0&&q->rear==MAX_QUEUE-1)
+return 1;
+else
+return 0;
+}
+
+int isempty(queue *q)        //function defined to check the queue is empty or not
+{
+if(q->front==NIL&&q->rear==NIL)
+return 1;
+else
+return 0;
+}
+
+void insertionqueue(queue *q,int item)    //insert function is defined
+{
+int i;
+if(q->front==NIL&&q->rear==NIL)       //checks front and rear of the queue is NIL/-1
+{
+q->front=q->front+1;                 //front of queue increased by 1
+q->rear=q->rear+1;                   //rear of queue increased by 1   
+}
+else if(q->rear==MAX_QUEUE-1)        //checks rear of the queue is equal to maxsize of the queue
+{
+for(i=q->front;i<=q->rear;i++)          //for loop is used
+{
+q->a[i-(q->front)]=q->a[i];       
+}
+q->rear=q->rear-q->front;         //rear=rear-front
+q->front=0;                      //frontis initialized to zero
+q->rear=q->rear+1;                //rear incresed by 1
+}
+else
+{
+q->rear=q->rear+1;   //rear of the queue increased by 1
+}
+q->a[q->rear]=item;         //item inserted at rear of the queue
+printf("Insertion successfull.");
+}
+
+int deletionqueue(queue *q)        //delete function is defined
+{
+int item;
+item=q->a[q->front];         //front item queue is stored in item
+if(q->front==q->rear)  
+{
+q->front=q->rear=-1;           //front and rear is initialized to -1 when there is only one itemin queue
+}
+else
+q->front=q->front+1;         //front is increased by 1 when there is more item in the queue after deleting an element
+
+return item;         //return the value of the item 
+
+}
