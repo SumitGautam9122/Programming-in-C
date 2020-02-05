@@ -1,0 +1,173 @@
+#include<stdio.h>
+#include<conio.h>
+#include<process.h>
+#define MAX_STACK 10
+#define NIL -1
+
+typedef struct stacktype           //stacktype structure is created
+{
+int a[MAX_STACK];      //integer type array is created
+int top;          //top variable is taken to point the top index of the stack
+}stack;
+
+
+void main()
+{
+int item,choice,f,i;
+stack s1;      //object is created to access the structure
+
+s1.top=NIL;      //top of the stack is initially -1
+void push(stack *,int);  //function declared for push operation
+int pop(stack *);         //function declared for pop operation
+int isoverflow(stack *);  //function declared to check overflow
+int isunderflow(stack *); //function declared to check underflow
+int peep(stack *);        //function declared for peep operation
+int postfix_eva(stack *);  //function declared for postfix evaluation
+
+clrscr();
+while(1)                     //infinite loop used
+{
+clrscr();
+printf("MENU\n______\n");
+printf("1.PUSH\n2.POP\n3.PEEP\n4.POSTFIX EVALUATION\n");
+printf("Enter your choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:printf("Enter a value for push operation:\n");   //if 1 selected the case 1 executes
+       scanf("%d",&item);
+       f=isoverflow(&s1);         //first checks overflow condition
+       if(f==1)
+       {
+       printf("Stack Overflow\n");     //if the stack is full the print full message break
+       break;
+       }
+       else
+       {
+       push(&s1,item);          //is stack is not full then call the push function which will take item and stack as argument
+       }
+       break;
+case 2:f=isunderflow(&s1);     //if selected 2 then case 2 execute
+       if(f==1)            ///first checks the stack is empty or not
+       {
+       printf("Stack Underflow");    ///if stcak is empty print empty and break
+       break;
+       }
+       else
+       {
+       item=pop(&s1);        //if not empty then call pop function and store the returnd value of function in the item variable
+       printf("POPED item is %d",item);   //print item
+       }
+       break;
+case 3:f=isunderflow(&s1);     //if selected 3 then case 3execute
+       if(f==1)
+       {
+       printf("Stack Underflow");   ///first checks the stack is empty or not and if stcak is empty print empty and break 
+       break;
+       }
+       else
+       {
+       item=pop(&s1);   //if not empty then call peep function and store the returnd value of function in the item variable
+       printf("PEEPED item is %d",item); //print item
+       }
+       break;
+case 4:f=postfix_eva(&s1);   //if selected 4 the postfix function will be called  and store the value after evaluation returnd by function
+       printf("reuslt is %d",f);  //print the value of f
+       break;
+case 5: exit(1);   //sleceted 5 the exit from the loop
+default: printf("ERROR");
+
+	 exit(1);
+	 break;
+}
+getch();
+}
+}
+
+void push(stack *p,int item)    //function defined for push operation and pointer is taken
+{
+p->top=p->top+1;          //top of stack increased by 1
+p->a[p->top]=item;         //item iserted at top of the stack
+printf("Push operation succesfull.\n");     
+}
+
+int pop(stack *p)    //function defined for pop operation and pointer is taken
+{
+int item;
+item=p->a[p->top];  //top item is poped and stored in item variable
+p->top=p->top-1;   //top decresed by 1
+return item;   //return the item
+}
+
+int peep(stack *p)   //function defined for peep operation and pointer is taken
+{
+int item;
+item=p->a[p->top];  /top item is stored to item variable
+return item;   //item returned
+}
+
+int isoverflow(stack *p)   //function defined to check the stack is full and pointer is taken
+{
+if(p->top==MAX_STACK)   //if the stack top is at max size of stcak then stack is full
+return 1;
+else
+ return 0;
+ }
+
+int isunderflow(stack *p)    //function defined to check the stack is empty and pointer is taken
+{
+if(p->top==NIL)    //if the stcak top in -1 or Nil then the stack is empty
+return 1;
+else
+return 0;
+}
+
+int postfix_eva(stack *p)        //function defined for post fix evaluation and pointer p is taken
+{
+char post[50];            //characer array declared
+int i,a,b,r;
+printf("Enter your postfix expression:");
+scanf("%s",&post);             //store a strinf of postfix expression in post array
+for(i=0;post[i]!='\0';i++)     //for loop is used to read all the elements of the array
+{
+ if(post[i]>=0&&post[i]<=9)
+ {
+ push(p,post[i]-48);
+ }
+ else
+ {
+  if(post[i]=='+')
+  {
+  a=pop(p);
+  b=pop(p);
+  r=b+a;
+  push(p,r);
+  }
+  if(post[i]=='-')
+  {
+  a=pop(p);
+  b=pop(p);
+  r=b-a;
+  push(p,r);
+  }
+  if(post[i]=='*')
+  {
+  a=pop(p);
+  b=pop(p);
+  r=b*a;
+  push(p,r);
+  }
+  if(post[i]=='/')
+  {
+  a=pop(p);
+  b=pop(p);
+  r=b/a;
+  push(p,r);
+  }
+ }
+
+ r=peep(p);        //returns the value after the postfix evaluation without deleting it from the stack
+
+ }
+ return r;
+ }
