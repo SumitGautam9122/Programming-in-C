@@ -1,0 +1,160 @@
+//PROGRAM ON OPERATIONS ON MATRIX
+#include<stdio.h>
+#include<conio.h>
+#include<process.h>
+void main()
+{
+void addmatrix(int a[10][10],int b[10][10],int c[10][10],int,int);   //function declared for addition
+void submatrix(int a[10][10],int b[10][10],int c[10][10],int,int);    //function declared for subtraction
+void lowertriangularmatrix(int a[10][10],int);                  //function declared for lower triangle of matrix
+void uppertriangularmatrix(int a[10][10],int);                   //function declared for upper triangle of matrix
+void transposematrix(int a[10][10],int);                         //function declared for transpose of matrix
+void inputmatrix(int a[10][10],int,int);                         //function declared for storing element in matrix
+void outputmatrix(int[10][10],int,int);                         //function declared for show element of the matrix
+void uppertriangularmatrix(int a[10][10],int,int);             //function declared for upper triangle of matrix
+int a[10][10],b[10][10],c[10][10];                        // three 2-d array declared
+int row1,col1,row2,col2,x;
+clrscr();
+
+printf("What is the order of your matrix:");
+scanf("%d%d",&row1,&col1);  //row and order of first matrix stored in row1 and col1 varaiable
+inputmatrix(a,row1,col1);    //input function called to store elements of the first matrix
+while(1)
+{
+clrscr();
+printf("MENU\n");
+printf("1.Addition of two matrix \n 2.Subtraction of two matrix\n 3.Lower Triangle \n 4. Upper Triangle \n 5.Transpose \n 6.Exit\n");
+printf("Please select your option:");
+scanf("%d",&x);
+switch(x)     //switch case used to perform different operations as per users choice
+{
+case 1:printf("What is the order of your second matrix:");  //if first case selected then ask for the row and columnof second matrix
+       scanf("%d%d",&row2,&col2);
+       inputmatrix(b,row2,col2);   //input function called to store elements of the second matrix
+       printf("After addition of two Matrix\n");
+       addmatrix(a,b,c,row1,col1);  //add function called to perform addition of the matrix
+       break;
+case 2:printf("What is the order of your second matrix:");  //if second case selected the ask for the row col of he second matrix
+       scanf("%d%d",&row2,&col2);
+       inputmatrix(b,row2,col2);  //input function called to store the elements od the second matrix
+       printf("After subtraction two Matrix\n");
+       submatrix(a,b,c,row1,col1);  //function called for subtraction of the two matrix
+       break;
+case 3:
+       lowertriangularmatrix(a,row1);  //function called to print lower diagonalofmatrix
+       break;
+case 4:outputmatrix(a,row1,col1);
+       printf("Upper triangle of matrix is\n");
+       uppertriangularmatrix(a,row1);  //functin called to print uppertriangle of he matrix
+       break;
+case 5: outputmatrix(a,row1,col1);
+	printf("After Tranpose of matrix\n");
+	transposematrix(a,row1);  //function called to tranpose the matrix
+	outputmatrix(a,row1,col1); //function called to show the transposed matrix
+	break;
+case 6:exit(1);
+default:printf("ERROR");
+       exit(1);
+}
+getch();
+}
+}
+
+void inputmatrix(int a[10][10],int r,int c)   //function defined to read the elements of the matrix
+{
+int i,j;
+printf("Please enter the elements of your matrix:\n");
+for(i=0;i<r;i++)
+{
+ for(j=0;j<c;j++)
+ {
+  scanf("%d",&a[i][j]);
+  }
+  }
+}
+
+void outputmatrix(int a[10][10],int r,int c)  //function defined to show the output of the 2-D array in matrix form 
+{
+int i,j;
+for(i=0;i<r;i++)
+{
+ for(j=0;j<c;j++)
+ {
+  printf("%d ",a[i][j]);
+  }
+  printf("\n");
+ }
+}
+
+void addmatrix(int a[10][10],int b[10][10],int o[10][10],int r,int c)   //function defined toperform adition of two matrix
+{
+int i,j;
+for(i=0;i<r;i++)
+{
+ for(j=0;j<c;j++)
+ {
+ o[i][j]=a[i][j]+b[i][j];
+ }
+}
+outputmatrix(o,r,c);
+}
+
+void lowertriangularmatrix(int a[10][10],int r)  //function defined to print lower diagonal of matrix
+{
+int i,j;
+for(i=0;i<r;i++)
+{
+ for(j=0;j<=i;j++)
+ {
+  printf("%d ",a[i][j]);
+  }
+printf("\n");
+}
+}
+
+void uppertriangularmatrix(int a[10][10],int r,int c)  //function defined to printf upper diagonal of matrix
+{
+int i,j;
+for(i=0;i<r;i++)
+{
+printf("\n");
+ for(j=0;j<=c;j++)
+ { 
+ if(i<=j)
+ {
+  printf("%d ",a[i][j]);
+  }
+  else
+  {
+printf("\t");
+}
+}
+}
+}
+
+void transposematrix(int a[10][10],int r)  //function defined to perform tranpose operation
+{
+int c,i,j;
+for(i=0;i<r;i++)
+{
+ for(j=0;j<i;j++)
+ {
+ c=a[i][j];
+ a[i][j]=a[j][i];
+ a[j][i]=c;
+ }
+}
+}
+
+void submatrix(int a[10][10],int b[10][10],int c[10][10],int ro,int co)  //function defined to perform subtraction of matrix
+{
+int i,j;
+for(i=0;i<ro;i++)
+{
+ for(j=0;j<co;j++)
+ {
+  c[i][j]=a[i][j]-b[i][j];
+ }
+}
+outputmatrix(c,ro,co);
+}
