@@ -1,0 +1,172 @@
+#include<stdio.h>            //library files included
+#include<conio.h>
+#include<process.h>
+#define MAX_STACK 10           //macros defined value of 10
+#define NIL -1                //macros defined value of -1
+
+typedef struct stacktype        //structure created
+{
+int a[MAX_STACK];       //array declared
+int top1;                //variable declared to point the top element of first stcak
+int top2;                //variable declared to point the top element of the second stack
+}stack;
+
+
+void main()
+{
+int item,choice,f,type;
+stack s1;            //object created to access the structure variables
+
+
+s1.top1=NIL;
+s1.top2=MAX_STACK;
+void push(stack *,int,int);        //function declared to perform push operation
+int pop(stack *,int);              //function declared to perform pop operation
+int isoverflow(stack *);           //function declared to check the stcak is full 
+int isunderflow(stack *,int);      //function declared to check the stack is empty
+int peep(stack *,int);             //function declared to perform peep operation
+
+
+clrscr();
+while(1)               //infinite loop is used for menu
+{
+clrscr();
+printf("Program for Double stack using a single array\n");
+printf("MENU\n______\n");
+printf("1.PUSH\n2.POP\n3.PEEP\n4.EXIT\n");
+printf("Enter your choice:");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:printf("Enter a value for push operation:\n");    //case 1 will perform the push operation in the stack 1 or 2 choosen by user
+       scanf("%d",&item);
+       printf("In which stack you want to insert the item 1 or 2:");
+       scanf("%d",&type);
+       f=isoverflow(&s1);
+       if(f==1)
+       {
+       printf("Stack Overflow\n");
+       break;
+       }
+       else
+       {
+       push(&s1,item,type);
+       }
+       break;
+case 2: printf("From which stack you want to pop the item 1 or 2:");    //case 2 will perform the pop operation in the stack 1 or 2 choosen by user
+       scanf("%d",&type);
+       f=isunderflow(&s1,type);
+       if(f==1)
+       {
+       printf("Stack Underflow");
+       break;
+       }
+       else
+       {
+
+       item=pop(&s1,type);
+       printf("POPED item is %d",item);
+       }
+       break;
+case 3: printf("From which stack you want to pop the item 1 or 2:");     //case 3 will perform the peep operation in the stack 1 or 2 choosen by user
+       scanf("%d",&type);
+       f=isunderflow(&s1,type);
+       if(f==1)
+       {
+       printf("Stack Underflow");
+       break;
+       }
+       else
+       {
+
+       item=peep(&s1,type);
+       printf("PEEPED item is %d",item);
+       }
+       break;
+
+case 4: exit(1);                //case 4 will exit from infinte loop
+default: printf("ERROR");
+
+	 exit(1);
+	 break;
+}
+getch();
+}
+}
+
+void push(stack *p,int item,int type)         //function defined for push operation in stack 1 and 2 both according the user choice
+{
+if(type==1)
+{
+p->top1=p->top1+1;
+p->a[p->top1]=item;
+printf("Push operation succesfull.\n");
+}
+if(type==2)
+{
+p->top2=p->top2-1;
+p->a[p->top2]=item;
+printf("Push operation successfull.\n");
+}
+}
+
+int pop(stack *p,int type)         //function defined for pop operation from stack 1 and 2 both according the user choice
+{
+int item;
+if(type==1)
+{
+item=p->a[p->top1];
+p->top1=p->top1-1;
+return item;
+}
+if(type==2)
+{
+item=p->a[p->top2];
+p->top2=p->top2+1;
+return item;
+}
+return item;
+}
+
+
+int peep(stack *p,int type)         //function defined for peep operation in stack 1 and 2 both according the user choice
+{
+int item;
+if(type==1)
+{
+item=p->a[p->top1];
+return item;
+}
+if(type==2)
+{
+item=p->a[p->top2];
+return item;
+}
+return item;
+}
+
+int isoverflow(stack *p)        //fuction defined to check for both the stcak is full or not
+{
+if((p->top1==MAX_STACK-1)||(p->top2==0)||(p->top1==p->top2-1))
+return 1;
+else
+ return 0;
+ }
+
+int isunderflow(stack *p,int type)       //function defined to check for both the stack is empty or not
+{
+if(type==1)
+{
+if(p->top1==NIL)
+return 1;
+else
+return 0;
+}
+if(type==2)
+{
+if(p->top2==MAX_STACK)
+return 1;
+else
+return 0;
+}
+}
