@@ -1,0 +1,122 @@
+#include<stdio.h>             //Library files
+#include<conio.h>
+#include<process.h>
+#define MAX_QUEUE 10            //macros defined for max size of the queue
+#define NIL -1                  //macros defines to value -1
+typedef struct queuetype        //structure created for a queue
+{
+int a[MAX_QUEUE];                 //array declared of size equal to max queue  
+int front;                       //variable taken to point front of the queue
+int rear;                        //variable taken to point rear of the queue
+}queue;
+
+void main()
+{
+queue q1;            //object created of the structure to acces it
+q1.front=NIL;        //queue front initialized to -1
+q1.rear=NIL;         //queue rear initialized to -1
+int item,choice,f;
+void insertionqueue(queue*,int);     //function declared for insertion operation in queue
+int deletionqueue(queue*);           //function declared for deletion operation in queue
+int isfull(queue*);           //function declared to check the queue is full
+int isempty(queue*);           //function declared to check the queue is empty
+clrscr();
+while(1)                          //infinite loop used for menu
+{
+clrscr();
+printf("MENU\n_____\n");
+printf("1.Insertion in Queue\n2.Deletion from Queue\n3.Exit\n");
+printf("Select your choice");
+scanf("%d",&choice);
+switch(choice)
+{
+case 1:f=isfull(&q1);                     //case 1 will perform the operation of inserting any element in queue and checks the queue is full or not
+       if(f==1)
+       {
+       printf("Queue is full");
+       break;
+       }
+       else
+       {
+       printf("Enter an item to insert in queue:");
+       scanf("%d",&item);
+       insertionqueue(&q1,item);
+       }
+       break;
+case 2:f=isempty(&q1);                     //case 2 will perform the operation of deleting any item from queue and checks the queue is empty
+       if(f==1)
+       {
+       printf("Queue is empty");
+       break;
+       }
+       else
+       {
+       item=deletionqueue(&q1);
+       printf("Deleted item from queue is %d",item);
+       }
+       break;
+case 3:exit(1);                    //case 3 will eit from the infinite loop of the menu
+       break;
+default:printf("Error");
+	break;
+}
+getch();
+}
+}
+
+int isfull(queue *cq)                //function defined to perform the operation to check the queue is full or not
+{
+if((cq->front==0&&cq->rear==MAX_QUEUE-1) || (cq->front-cq->rear==1))
+return 1;
+else
+return 0;
+}
+
+int isempty(queue *q)            //funrtion defined to check the queue is empty or not
+{
+if(q->front==NIL&&q->rear==NIL)
+return 1;
+else
+return 0;
+}
+
+void insertionqueue(queue *q,int item)               //function defined to perform to operations to insert an item in the queue
+{
+int i;
+if(q->front==NIL&&q->rear==NIL)
+{
+q->front=q->front+1;
+q->rear=q->rear+1;
+}
+else if(q->rear==MAX_QUEUE-1)
+{
+q->rear=0;
+}
+
+else
+{
+q->rear=q->rear+1;
+}
+q->a[q->rear]=item;
+printf("Insertion successfull.");
+}
+
+int deletionqueue(queue *cq)             //function defined to perform th eoperation to delete any item from thr queue
+{
+int item;
+item=cq->a[cq->front];
+if(cq->front==cq->rear)
+{
+cq->front=cq->rear=-1;
+}
+else if(cq->front==MAX_QUEUE-1)
+{
+cq->front=0;
+}
+else
+{
+cq->front=cq->front+1;
+}
+return item;
+
+}
